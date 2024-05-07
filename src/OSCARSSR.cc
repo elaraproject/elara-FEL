@@ -1728,6 +1728,20 @@ void OSCARSSR::CalculateSpectrum (TVector3D const& ObservationPoint,
     GPUVector.resize(NGPU);
   }
 
+  // Basic check to see that polarization mode will work
+  std::string PolarizationLC = Polarization;
+  std::transform(PolarizationLC.begin(), PolarizationLC.end(), PolarizationLC.begin(), ::tolower);
+  std::replace(PolarizationLC.begin(), PolarizationLC.end(), ' ', '-');
+  if (PolarizationLC.find("all") != std::string::npos) {
+  } else if (PolarizationLC.find("linear-horizontal") != std::string::npos || PolarizationLC.find("lh") != std::string::npos) {
+  } else if (PolarizationLC.find("linear-vertical") != std::string::npos || PolarizationLC.find("lv") != std::string::npos) {
+  } else if (PolarizationLC == "linear") {
+  } else if (PolarizationLC.find("circular-left") != std::string::npos || PolarizationLC.find("cl") != std::string::npos) {
+  } else if (PolarizationLC.find("circular-right") != std::string::npos || PolarizationLC.find("cr") != std::string::npos) {
+  } else {
+    // Throw invalid argument if polarization is not recognized
+    throw std::invalid_argument("Polarization requested not recognized");
+  }
 
   // Which cpmpute method will we use, gpu, multi-thread, or single-thread
   if (UseGPU) {
