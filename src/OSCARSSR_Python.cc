@@ -1257,7 +1257,7 @@ static PyObject* OSCARSSR_AddMagneticFieldUniform (OSCARSSRObject* self, PyObjec
 
 
 const char* DOC_OSCARSSR_AddMagneticFieldIdealUndulator = R"docstring(
-add_bfield_undulator(bfield, period, nperiods [, phase, rotations, translation, taper, frequency, frequency_phase, time_offset, name])
+add_bfield_undulator(bfield, period, [nperiods, nhalfperiods, phase, rotations, translation, taper, frequency, frequency_phase, time_offset, name])
 
 Adds an ideal sinusoidal undulator field with a given maximum bfield amplitude, period, and number of periods.  Optionally one can specify the phase offset (in [rad]), rotations and translation.  The number of periods given is the full number of fields not counting the terminating fields.
 
@@ -1271,6 +1271,9 @@ period : list
 
 nperiods : int
     Number of periods
+
+nperiods : int
+    Number of half periods
 
 phase : float
     Phase offset in [rad]
@@ -1434,7 +1437,7 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealUndulator (OSCARSSRObject* self, 
 
 
 const char* DOC_OSCARSSR_AddMagneticFieldIdealEPU = R"docstring(
-add_bfield_epu(bfieldA, bfieldB, period, nperiods [, phase, rotations, translation, taper, frequency, frequency_phase, time_offset, name])
+add_bfield_epu(bfieldA, bfieldB, period [, nperiods nhalfperiods, phase, rotations, translation, taper, frequency, frequency_phase, time_offset, name])
 
 Adds an ideal sinusoidal EPU field with given maximum bfield amplitudes, period, and number of periods.  Optionally one can specify the phase offset (in [rad]), rotations and translation.  The number of periods given is the full number of fields not counting the terminating fields.
 
@@ -1451,6 +1454,9 @@ period : list
 
 nperiods : int
     Number of periods
+
+nhalfperiods : int
+    Number of half periods
 
 phase : float
     Phase offset in [rad] which is split between fieldA and fieldB
@@ -1497,6 +1503,7 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealEPU (OSCARSSRObject* self, PyObje
   PyObject*   List_Rotations   = PyList_New(0);
   PyObject*   List_Translation = PyList_New(0);
   int         NPeriods         = 0;
+  int         NHalfPeriods     = 0;
   double      Phase            = 0;
   double      Taper            = 0;
   double      Frequency        = 0;
@@ -1514,6 +1521,7 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealEPU (OSCARSSRObject* self, PyObje
   static const char *kwlist[] = {
                                  "period",
                                  "nperiods",
+                                 "nhalfperiods",
                                  "bfieldA",
                                  "bfieldB",
                                  "phase",
@@ -1526,10 +1534,11 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealEPU (OSCARSSRObject* self, PyObje
                                  "name",
                                  NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, keywds, "Oi|OOdOOdddds",
+  if (!PyArg_ParseTupleAndKeywords(args, keywds, "O|iiOOdOOdddds",
                                    const_cast<char **>(kwlist),
                                    &List_Period,
                                    &NPeriods,
+                                   &NHalfPeriods,
                                    &List_FieldA,
                                    &List_FieldB,
                                    &Phase,
@@ -1577,6 +1586,13 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealEPU (OSCARSSRObject* self, PyObje
     return NULL;
   }
 
+  // Check NPeriods and NHalfPeriods
+  if (NPeriods <= 0 && NHalfPeriods <= 0) {
+  } else if (NPeriods != 0 && NHalfPeriods != 0) {
+  } else if (NPeriods != 0) {
+    NHalfPeriods = NPeriods * 2;
+  }
+
   // Check for Rotations in the input
   if (PyList_Size(List_Rotations) != 0) {
     try {
@@ -1612,7 +1628,7 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealEPU (OSCARSSRObject* self, PyObje
 
 
   // Add field
-  self->obj->AddMagneticField( (TField*) new TField3D_IdealEPU(FieldA, FieldB, Period, NPeriods, Translation, Phase, Taper, Frequency, FrequencyPhase, TimeOffset, Name));
+  self->obj->AddMagneticField( (TField*) new TField3D_IdealEPU(FieldA, FieldB, Period, NHalfPeriods, Translation, Phase, Taper, Frequency, FrequencyPhase, TimeOffset, Name));
 
   // Must return python object None in a special way
   Py_INCREF(Py_None);

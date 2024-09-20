@@ -27,7 +27,7 @@ TField3D_IdealEPU::TField3D_IdealEPU (std::string const& Name)
 TField3D_IdealEPU::TField3D_IdealEPU (TVector3D const& FieldA,
                                       TVector3D const& FieldB,
                                       TVector3D const& Period,
-                                      int const NPeriods,
+                                      int const NHalfPeriods,
                                       TVector3D const& Center,
                                       double const Phase,
                                       double const Taper,
@@ -43,11 +43,11 @@ TField3D_IdealEPU::TField3D_IdealEPU (TVector3D const& FieldA,
 
   // Field - Peak magnetic field in [T]
   // Period - Magnitude is the period while direction is the axis for that variation
-  // NPeriods - Number of periods
+  // NHalfPeriods - Number of half periods
   // Center - Where in space the center of this field will be
   // Phase - A phase offset for the sine function given in [rad]
 
-  this->Init(FieldA, FieldB, Period, NPeriods, Center, Phase, Taper, Frequency, FrequencyPhase, TimeOffset, Name);
+  this->Init(FieldA, FieldB, Period, NHalfPeriods, Center, Phase, Taper, Frequency, FrequencyPhase, TimeOffset, Name);
 }
 
 
@@ -64,7 +64,7 @@ TField3D_IdealEPU::~TField3D_IdealEPU ()
 void TField3D_IdealEPU::Init (TVector3D const& FieldA,
                               TVector3D const& FieldB,
                               TVector3D const& Period,
-                              int const NPeriods,
+                              int const NHalfPeriods,
                               TVector3D const& Center,
                               double const Phase,
                               double const Taper,
@@ -80,7 +80,7 @@ void TField3D_IdealEPU::Init (TVector3D const& FieldA,
 
   // Field - Peak magnetic field in [T]
   // Period - Magnitude is the period while direction is the axis for that variation
-  // NPeriods - Number of periods
+  // NHalfPeriods - Number of periods
   // Center - Where in space the center of this field will be
   // Phase - A phase offset for the sine function given in [rad]
   // Name - Name of this field
@@ -92,7 +92,7 @@ void TField3D_IdealEPU::Init (TVector3D const& FieldA,
   fFieldA   = FieldA;
   fFieldB   = FieldB;
   fPeriod   = Period;
-  fNPeriods = NPeriods;
+  fNHalfPeriods = NHalfPeriods;
   fCenter   = Center;
   fPhase    = Phase;
   fTaper    = Taper;
@@ -104,8 +104,8 @@ void TField3D_IdealEPU::Init (TVector3D const& FieldA,
   fPeriodLength = fPeriod.Mag();
   fPeriodUnitVector = fPeriod.UnitVector();
 
-  // Length is 2 periods longer than NPeriods to account for terminating fields
-  fUndulatorLength = fPeriod.Mag() * (fNPeriods + 2);
+  // Length is 2 periods longer than NHalfPeriods*2 to account for terminating fields
+  fUndulatorLength = fPeriod.Mag() * (fNHalfPeriods / 2 + 2);
 
   return;
 }
@@ -208,10 +208,10 @@ TVector3D TField3D_IdealEPU::GetPeriod () const
 
 
 
-int TField3D_IdealEPU::GetNPeriods () const
+int TField3D_IdealEPU::GetNHalfPeriods () const
 {
   // Return the peak field
-  return fNPeriods;
+  return fNHalfPeriods;
 }
 
 

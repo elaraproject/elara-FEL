@@ -22,7 +22,7 @@ class TField3D_IdealEPU : public TField
     TField3D_IdealEPU (TVector3D   const& FieldA,
                        TVector3D   const& FieldB,
                        TVector3D   const& Period,
-                       int         const  NPeriods,
+                       int         const  NHalfPeriods,
                        TVector3D   const& Center    = TVector3D(0, 0, 0),
                        double      const  Phase     = 0,
                        double      const  Taper     = 0,
@@ -39,7 +39,7 @@ class TField3D_IdealEPU : public TField
     void Init (TVector3D   const& FieldA,
                TVector3D   const& FieldB,
                TVector3D   const& Period,
-               int         const  NPeriods,
+               int         const  NHalfPeriods,
                TVector3D   const& Center    = TVector3D(0, 0, 0),
                double      const  Phase     = 0,
                double      const  Taper     = 0,
@@ -51,7 +51,7 @@ class TField3D_IdealEPU : public TField
     TVector3D GetFieldA () const;
     TVector3D GetFieldB () const;
     TVector3D GetPeriod () const;
-    int       GetNPeriods () const;
+    int       GetNHalfPeriods () const;
     TVector3D GetCenter () const;
     double    GetPhase () const;
     double    GetTaper () const;
@@ -69,7 +69,7 @@ class TField3D_IdealEPU : public TField
     TVector3D fPeriod;
     TVector3D fPeriodUnitVector;
     double    fPeriodLength;
-    int       fNPeriods;
+    int       fNHalfPeriods;
     TVector3D fCenter;
     double    fPhase;
     double    fTaper;
@@ -91,7 +91,7 @@ inline std::ostream& operator << (std::ostream& os, TField3D_IdealEPU const& o)
      << "FieldA                  " << o.GetFieldA() << "\n"
      << "FieldB                  " << o.GetFieldB() << "\n"
      << "Period                  " << o.GetPeriod() << "  (" << o.GetPeriod().Mag() << " [m])\n"
-     << "NPeriods                " << o.GetNPeriods() << "\n"
+     << "NHalfPeriods            " << o.GetNHalfPeriods() << "\n"
      << "Center                  " << o.GetCenter() << "\n"
      << "Phase                   " << o.GetPhase() << "\n"
      << "Taper                   " << o.GetTaper() << "\n"
