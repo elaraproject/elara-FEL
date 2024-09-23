@@ -29,21 +29,21 @@ def plot_trajectory_position(trajectory, show=True, ofile='', axis='Z', figsize=
     Y  = [item[1][1] for item in trajectory]
     Z  = [item[1][2] for item in trajectory]
 
-    if axis is 'X':
+    if axis == 'X':
         X1Label = 'X (m)'
         X2Label = 'Y (m)'
         X3Label = 'Z (m)'
         X1 = X
         X2 = Y
         X3 = Z
-    elif axis is 'Y':
+    elif axis == 'Y':
         X1Label = 'Y (m)'
         X2Label = 'Z (m)'
         X3Label = 'X (m)'
         X1 = Y
         X2 = Z
         X3 = X
-    elif axis is 'Z':
+    elif axis == 'Z':
         X1Label = 'Z (m)'
         X2Label = 'X (m)'
         X3Label = 'Y (m)'
@@ -254,7 +254,7 @@ def write_power_density_csv(V, ofile=''):
     """write histogram with equal spacing"""
  
 
-    if ofile is '':
+    if ofile == '':
         raise ValueError('Must specify an output file')
 
     X = [item[0][0] for item in V]
@@ -717,11 +717,11 @@ def plot_bfield(osr, mymin=-1, mymax=1, t=0, name='', ylim=None, show=True, ofil
         P = np.linspace(mymin, mymax, npoints)
         B = []
         for p in P:
-            if axis is 'X':
+            if axis == 'X':
                 B = osr.get_bfield([p, 0, 0], t, name)
-            elif axis is 'Y':
+            elif axis == 'Y':
                 B = osr.get_bfield([0, p, 0], t, name)
-            elif axis is 'Z':
+            elif axis == 'Z':
                 B = osr.get_bfield([0, 0, p], t, name)
             else:
                 raise
@@ -800,11 +800,11 @@ def plot_efield(osr, mymin=-1, mymax=1, t=0, name='', ylim=None, show=True, ofil
         P = np.linspace(mymin, mymax, npoints)
         B = []
         for p in P:
-            if axis is 'X':
+            if axis == 'X':
                 B = osr.get_bfield([p, 0, 0], t, name)
-            elif axis is 'Y':
+            elif axis == 'Y':
                 B = osr.get_bfield([0, p, 0], t, name)
-            elif axis is 'Z':
+            elif axis == 'Z':
                 B = osr.get_bfield([0, 0, p], t, name)
             else:
                 raise
@@ -937,7 +937,7 @@ def plot_undulator_flux_onaxis(oth, period, nperiods, harmonics, minimum=0, bfie
         raise ValueError('bfield_range and k_range cannot both be defined.  pick one or the other')
 
     if bfield_range is not None:
-        if len(bfield_range) is not 2:
+        if len(bfield_range) != 2:
             raise ValueError('bfield_range must be: [min, max]')
         else:
             k_range = [oth.undulator_K(bfield_range[0], period), oth.undulator_K(bfield_range[1], period)]
@@ -997,7 +997,7 @@ def plot_undulator_brightness(oth, period, nperiods, harmonics, minimum=0, bfiel
         raise ValueError('bfield and K cannot both be defined.  pick one or the other')
 
     if bfield is not None:
-        if len(bfield) is not 2:
+        if len(bfield) != 2:
             raise ValueError('bfield must be: [min, max]')
         else:
             K = [oth.undulator_K(bfield[0], period), oth.undulator_K(bfield[1], period)]

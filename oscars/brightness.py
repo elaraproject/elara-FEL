@@ -223,7 +223,7 @@ class Synchrotron:
                         continue
 
 
-                    if d.calculation is 'SRW':
+                    if d.calculation == 'SRW':
                         br = srw_und_brightness(
                             oth=oth,
                             Kx_range=d.k_range,
@@ -251,7 +251,7 @@ class Synchrotron:
                     f = interp1d(x, y, kind='cubic')
                     self.curves.append([d, [x[0], x[-1]], f])
             elif isinstance(d, EPU):
-                if d.calculation is 'SRW':
+                if d.calculation == 'SRW':
                     br = srw_epu_brightness(
                         oth=oth,
                         Kx_range=d.kx_range,
@@ -769,10 +769,10 @@ def plot_brightness (experiments, title='Brightness', energy_range_eV=None, figs
                     yy = curve[2](xx)
                     
                 
-            if yy is not 0:
+            if yy != 0:
                 X.append(xx)
                 Y.append(yy)
-            elif yy is 0 and len(X) is not 0:
+            elif yy == 0 and len(X) != 0:
                 if labeldone:
                     plt.plot(X, Y, color=color, linestyle=exp.linestyle, linewidth=exp.linewidth, marker=exp.marker)
                 else:
@@ -851,7 +851,7 @@ def get_brightness_points (experiments, title='Brightness', energy_range_eV=None
                 
             X.append(xx)
             Y.append(yy)
-            #elif yy is 0 and len(X) is not 0:
+            #elif yy == 0 and len(X) != 0:
             #    X=[]
             #    Y=[]
 
@@ -904,10 +904,10 @@ def plot_flux (experiments, energy_range_eV=None, figsize=None, xlim=None, ylim=
                 except:
                     print('ERROR in', exp.name, curve)
                 
-            if yy is not 0:
+            if yy != 0:
                 X.append(xx)
                 Y.append(yy)
-            elif yy is 0 and len(X) is not 0:
+            elif yy == 0 and len(X) != 0:
                 if labeldone:
                     plt.plot(X, Y, color=color, linestyle=exp.linestyle, linewidth=exp.linewidth)
                 else:
@@ -1018,23 +1018,23 @@ def plot_diff (experiment_sets, kind='flux_onaxis', energy_range_eV=None, figsiz
         X = np.logspace(np.log10(energy_range_eV[0]), np.log10(energy_range_eV[1]), 2000)
     
         for exp in experiments:
-            if kind is 'flux_onaxis':
+            if kind == 'flux_onaxis':
                 exp.get_flux_onaxis_curves(energy_range_eV)
                 if ylabel is None:
                     ylabel = 'Fractional On-Axis Flux Difference\n(A-B)/A'
-            elif kind is 'flux':
+            elif kind == 'flux':
                 exp.get_flux_curves(energy_range_eV)
                 if ylabel is None:
                     ylabel = 'Fractional Flux Difference\n(A-B)/A'
-            elif kind is 'brightness':
+            elif kind == 'brightness':
                 exp.get_brightness_curves(energy_range_eV)
                 if ylabel is None:
                     ylabel = 'Fractional Brightness Difference\n(A-B)/A'
-            elif kind is 'coherentflux':
+            elif kind == 'coherentflux':
                 exp.get_coherentflux_curves(energy_range_eV)
                 if ylabel is None:
                     ylabel = 'Fractional Coherent Flux Difference\n(A-B)/A'
-            elif kind is 'coherentflux_fraction':
+            elif kind == 'coherentflux_fraction':
                 exp.get_coherentflux_fraction_curves(energy_range_eV)
                 if ylabel is None:
                     ylabel = 'Fractional Coherent Flux Fraction Difference\n(A-B)/A'
@@ -1130,10 +1130,10 @@ def plot_flux_onaxis (experiments, energy_range_eV=None, figsize=None, xlim=None
                     yy = curve[2](xx)
                     
                 
-            if yy is not 0:
+            if yy != 0:
                 X.append(xx)
                 Y.append(yy)
-            elif yy is 0 and len(X) is not 0:
+            elif yy == 0 and len(X) != 0:
                 if labeldone:
                     plt.plot(X, Y, color=color, linestyle=exp.linestyle, linewidth=exp.linewidth)
                 else:
@@ -1206,10 +1206,10 @@ def plot_coherentflux (experiments, energy_range_eV=None, figsize=None, xlim=Non
                     yy = curve[2](xx)
                     
                 
-            if yy is not 0:
+            if yy != 0:
                 X.append(xx)
                 Y.append(yy)
-            elif yy is 0 and len(X) is not 0:
+            elif yy == 0 and len(X) != 0:
                 if labeldone:
                     plt.plot(X, Y, color=color, linestyle=exp.linestyle, linewidth=exp.linewidth)
                 else:
@@ -1290,10 +1290,10 @@ def plot_coherentflux_fraction (experiments, energy_range_eV=None, figsize=None,
                     yy = curve[2](xx)
                     
                 
-            if yy is not 0:
+            if yy != 0:
                 X.append(xx)
                 Y.append(yy)
-            elif yy is 0 and len(X) is not 0:
+            elif yy == 0 and len(X) != 0:
                 if labeldone:
                     plt.plot(X, Y, color=color, linestyle=exp.linestyle, linewidth=exp.linewidth)
                 else:
@@ -1412,7 +1412,7 @@ def plot_brightness_all (experiments, energy_range_eV, title='Brightness', figsi
                     if i % 2 == 0:
                         continue
 
-                    if d.calculation is 'SRW':
+                    if d.calculation == 'SRW':
                         br = srw_und_brightness(
                             oth=oth,
                             Kx_range=d.k_range,
@@ -1449,10 +1449,10 @@ def plot_brightness_all (experiments, energy_range_eV, title='Brightness', figsi
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:
@@ -1471,7 +1471,7 @@ def plot_brightness_all (experiments, energy_range_eV, title='Brightness', figsi
                 labeldone = False
                 curves = []
 
-                if d.calculation is 'SRW':
+                if d.calculation == 'SRW':
                     br = srw_epu_brightness(
                         oth=oth,
                         Kx_range=d.kx_range,
@@ -1498,10 +1498,10 @@ def plot_brightness_all (experiments, energy_range_eV, title='Brightness', figsi
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:
@@ -1654,10 +1654,10 @@ def plot_flux_all (experiments, energy_range_eV, title='Spectral Flux', figsize=
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:
@@ -1701,10 +1701,10 @@ def plot_flux_all (experiments, energy_range_eV, title='Spectral Flux', figsize=
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:
@@ -1874,10 +1874,10 @@ def plot_flux_onaxis_all (experiments, energy_range_eV, title='Peak Flux / mrad$
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:
@@ -1921,10 +1921,10 @@ def plot_flux_onaxis_all (experiments, energy_range_eV, title='Peak Flux / mrad$
                         if xx >= curve[1][0] and xx <= curve[1][1] and curve[2](xx) > yy:
                             yy = curve[2](xx)
                             
-                    if yy is not 0:
+                    if yy != 0:
                         X.append(xx)
                         Y.append(yy)
-                    elif yy is 0 and len(X) is not 0:
+                    elif yy == 0 and len(X) != 0:
                         if labeldone:
                             plt.plot(X, Y, color=color, linestyle=linestyle)
                         else:

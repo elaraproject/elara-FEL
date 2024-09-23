@@ -553,6 +553,16 @@ class OSCARSSR
     TDriftVolumeContainer const& GetDriftVolumeContainer () const;
     TSTLContainer const& GetSTLContainer () const;
 
+    double UndulatorK (double const BFieldMax,
+                       double const Period) const;
+
+    double UndulatorBField (double const K,
+                            double const Period) const;
+
+    double UndulatorPeriod (double const BField,
+                            double const K) const;
+
+
   private:
     TFieldContainer  fBFieldContainer;
     TFieldContainer  fEFieldContainer;

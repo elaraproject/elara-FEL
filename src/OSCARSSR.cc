@@ -4581,3 +4581,30 @@ TSTLContainer const& OSCARSSR::GetSTLContainer () const
   // Return the STL container
   return fSTLContainer;
 }
+
+
+
+double OSCARSSR::UndulatorK (double const BFieldMax, double const Period) const
+{
+  // Return the 'K' value for an undulator with max bfield [T], Period [m]
+
+  return BFieldMax * Period * TOSCARS::Qe() / (TOSCARS::TwoPi() * TOSCARS::Me() * TOSCARS::C());
+}
+
+
+
+double OSCARSSR::UndulatorBField (double const K, double const Period) const
+{
+  // Return the 'BFieldMax' [T] value for an undulator with deflection parameter K, Period [m]
+
+  return K / (Period * TOSCARS::Qe() / (TOSCARS::TwoPi() * TOSCARS::Me() * TOSCARS::C()));
+}
+
+double OSCARSSR::UndulatorPeriod (double const BFieldMax, double const K) const
+{
+  // Return the Period [m] value for an undulator with max bfield [T] and deflection parameter K
+
+  return K / (BFieldMax * TOSCARS::Qe() / (TOSCARS::TwoPi() * TOSCARS::Me() * TOSCARS::C()));
+}
+
+

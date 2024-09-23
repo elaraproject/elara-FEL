@@ -118,9 +118,13 @@ static PyObject* OSCARSSR_PrintTrajectory (OSCARSSRObject* self);
 static PyObject* OSCARSSR_AddSTL (OSCARSSRObject* self, PyObject* args, PyObject *keywds);
 static PyObject* OSCARSSR_PrintSTL (OSCARSSRObject* self);
 static PyObject* OSCARSSR_PrintAll (OSCARSSRObject* self);
+
+static PyObject* OSCARSSR_UndulatorK (OSCARSSRObject* self, PyObject* args, PyObject* keywds);
+static PyObject* OSCARSSR_UndulatorBField (OSCARSSRObject* self, PyObject* args, PyObject* keywds);
+static PyObject* OSCARSSR_UndulatorPeriod (OSCARSSRObject* self, PyObject* args, PyObject* keywds);
+
 static PyObject* OSCARSSR_COUT (OSCARSSRObject* self, PyObject* args, PyObject *keywds);
 static PyObject* OSCARSSR_CERR (OSCARSSRObject* self, PyObject* args, PyObject *keywds);
-
 
 static PyObject* OSCARSSR_Fake (OSCARSSRObject* self, PyObject* args, PyObject *keywds);
 static PyObject* OSCARSSR_GetT3DScalarAsList (T3DScalarContainer const& C);

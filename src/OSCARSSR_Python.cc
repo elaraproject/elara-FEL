@@ -9408,6 +9408,142 @@ static PyObject* OSCARSSR_PrintAll (OSCARSSRObject* self)
 
 
 
+const char* DOC_OSCARSSR_UndulatorK = R"docstring(
+undulator_K(bfield, period)
+
+Get the undulator K parameter vaule
+
+Parameters
+----------
+bfield : float
+    Peak magnetic field in [T]
+
+period : float
+    Magnetic period in [m]
+
+Returns
+-------
+K : float
+    Undulator deflectrion parameter
+)docstring";
+static PyObject* OSCARSSR_UndulatorK (OSCARSSRObject* self, PyObject* args, PyObject* keywds)
+{
+  // Return the undulator K parameter given peak bfield and period
+
+  // Require 2 arguments
+  double BFieldMax = 0;
+  double Period = 0;
+
+  // Input variables and parsing
+  static const char *kwlist[] = {"bfield",
+                                 "period",
+                                 NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywds, "dd",
+                                   const_cast<char **>(kwlist),
+                                   &BFieldMax,
+                                   &Period)) {
+    return NULL;
+  }
+
+
+  // Return the deflection parameter K
+  return Py_BuildValue("d", self->obj->UndulatorK(BFieldMax, Period));
+}
+
+
+
+
+
+const char* DOC_OSCARSSR_UndulatorBField = R"docstring(
+undulator_bfield(K, period)
+
+Get the undulator BFieldMax parameter value given K and the period
+
+Parameters
+----------
+K : float
+    Undulator deflection parameters
+
+period : float
+    Magnetic period in [m]
+
+Returns
+-------
+bfield : float
+    Peak bfield
+)docstring";
+static PyObject* OSCARSSR_UndulatorBField (OSCARSSRObject* self, PyObject* args, PyObject* keywds)
+{
+  // Return the undulator BFieldMax parameter give the K and period
+
+  // Require 2 arguments
+  double K = 0;
+  double Period = 0;
+
+  // Input variables and parsing
+  static const char *kwlist[] = {"K",
+                                 "period",
+                                 NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywds, "dd",
+                                   const_cast<char **>(kwlist),
+                                   &K,
+                                   &Period)) {
+    return NULL;
+  }
+
+  // Return the BField Max value
+  return Py_BuildValue("d", self->obj->UndulatorBField(K, Period));
+}
+
+
+
+
+
+const char* DOC_OSCARSSR_UndulatorPeriod = R"docstring(
+undulator_period(bfield, K)
+
+Get the undulator Period parameter vaule given this bfield and K
+
+Parameters
+----------
+
+K : float
+    Undulator deflection parameters
+
+bfield : float
+    Peak magnetic field in [T]
+
+Returns
+-------
+period : float
+    Magnetic period
+)docstring";
+static PyObject* OSCARSSR_UndulatorPeriod (OSCARSSRObject* self, PyObject* args, PyObject* keywds)
+{
+  // Return the undulator Period parameter given peak bfield and K
+
+  // Require 2 arguments
+  double BFieldMax = 0;
+  double K = 0;
+
+  // Input variables and parsing
+  static const char *kwlist[] = {"bfield",
+                                 "K",
+                                 NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywds, "dd",
+                                   const_cast<char **>(kwlist),
+                                   &BFieldMax,
+                                   &K)) {
+    return NULL;
+  }
+
+
+  // Return the undulator Period
+  return Py_BuildValue("d", self->obj->UndulatorPeriod(BFieldMax, K));
+}
 
 
 
@@ -9455,6 +9591,10 @@ static PyMethodDef OSCARSSR_methods_fake[] = {
   {"set_seed",                          (PyCFunction) OSCARSSR_Fake, METH_O,                       "set global random seed"},
   {"cout",                              (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, "print string to cout"},
   {"cerr",                              (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, "print string to cerr"},
+
+  {"undulator_K",                       (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorK},
+  {"undulator_bfield",                  (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorBField},
+  {"undulator_period",                  (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorPeriod},
 
   {"set_gpu_global",                    (PyCFunction) OSCARSSR_Fake, METH_O,                       DOC_OSCARSSR_SetGPUGlobal},
   {"check_gpu",                         (PyCFunction) OSCARSSR_Fake, METH_NOARGS,                  DOC_OSCARSSR_CheckGPU},
@@ -9588,6 +9728,10 @@ static PyMethodDef OSCARSSR_methods[] = {
   {"set_seed",                          (PyCFunction) OSCARSPY::Py_SetSeed,                     METH_O,                       "set global random seed"},
   {"cout",                              (PyCFunction) OSCARSPY::Py_COUT,                        METH_VARARGS | METH_KEYWORDS, "print string to cout"},
   {"cerr",                              (PyCFunction) OSCARSPY::Py_CERR,                        METH_VARARGS | METH_KEYWORDS, "print string to cerr"},
+
+  {"undulator_K",                       (PyCFunction) OSCARSSR_UndulatorK,                      METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorK},
+  {"undulator_bfield",                  (PyCFunction) OSCARSSR_UndulatorBField,                 METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorBField},
+  {"undulator_period",                  (PyCFunction) OSCARSSR_UndulatorPeriod,                 METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_UndulatorPeriod},
 
   {"set_gpu_global",                    (PyCFunction) OSCARSSR_SetGPUGlobal,                    METH_O,                       DOC_OSCARSSR_SetGPUGlobal},
   {"check_gpu",                         (PyCFunction) OSCARSSR_CheckGPU,                        METH_NOARGS,                  DOC_OSCARSSR_CheckGPU},
