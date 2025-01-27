@@ -138,10 +138,14 @@ class henvelope:
 
         return
     
-    def plot (self, **args):
+    def plot (self, **kwargs):
         if len(self.hgs) > 0:
-            for hg in self.hgs:
-                ret = hg.plot(**args)
+            for i,hg in enumerate(self.hgs):
+                if i == 0:
+                    ret = hg.plot(**kwargs)
+                else:
+                    filtered_kwargs = {k: v for k, v in kwargs.items() if k != "label"}
+                    ret = hg.plot(**filtered_kwargs)
             return ret
         return
 
