@@ -671,7 +671,7 @@ static PyObject* OSCARSTH_DipoleBrightness (OSCARSTHObject* self, PyObject* args
 
   TVector2D const EnergyRange_eV = List_EnergyRange_eV != 0x0 ? OSCARSPY::ListAsTVector2D(List_EnergyRange_eV) : TVector2D(0, 0);
   if (List_EnergyRange_eV != 0x0 && PyList_Size(List_EnergyRange_eV) != 0 && NPoints > 0) {
-    if (EnergyRange_eV[0] >= EnergyRange_eV[1] || EnergyRange_eV[0] <= 1 || EnergyRange_eV[1] <= 0) {
+    if (EnergyRange_eV[0] >= EnergyRange_eV[1] || EnergyRange_eV[0] <= 1e-6 || EnergyRange_eV[1] <= 0) {
       PyErr_SetString(PyExc_ValueError, "'energy_range_eV' is incorrect");
       return NULL;
     } else {

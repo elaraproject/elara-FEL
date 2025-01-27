@@ -120,20 +120,23 @@ def srwl_und_flux_en(Ib,kxmax,kzmax,kmin,numkpts,E_elec,lam_u,phix,phiz,n,nPer,e
     #compute kvals and Evals
     #lam_u: undulator wavelength in cm
     kmax = math.sqrt(kxmax**2+kzmax**2)
-    dk = (kmax - kmin)/(numkpts-1)
-    kvals=np.arange(kmin, kmax+1e-9,dk)
+    #dk = (kmax - kmin)/(numkpts-1)
+    #kvals=np.arange(kmin, kmax+1e-9,dk)
+    kvals = np.linspace(kmin, kmax, numkpts) # dhidas
     #compute Evals
     Evals = KtoE(kvals,E_elec,lam_u,n)
     #compute kxvals and kzvals
     if kxmax > kmin:
-        dkx = (kxmax-kmin)/(numkpts-1)
-        kxvals = np.arange(kmin,kxmax+1e-9,dkx)
+        #dkx = (kxmax-kmin)/(numkpts-1)
+        #kxvals = np.arange(kmin,kxmax+1e-9,dkx)
+        kxvals = np.linspace(kmin, kxmax, numkpts) # dhidas
     else:
         kxvals = np.zeros(numkpts)
 
     if kzmax > kmin:
-        dkz = (kzmax-kmin)/(numkpts-1)
-        kzvals = np.arange(kmin,kzmax+1e-9,dkz)
+        #dkz = (kzmax-kmin)/(numkpts-1)
+        #kzvals = np.arange(kmin,kzmax+1e-9,dkz)
+        kzvals = np.linspace(kmin, kzmax, numkpts) # dhidas
     else:
         kzvals = np.zeros(numkpts)
 
@@ -164,20 +167,23 @@ def srwl_und_size_en(kxmax,kzmax,kmin,numkpts,E_elec,lam_u,phix,phiz,n,nPer,enDe
     #compute kvals and Evals
     #lam_u: undulator wavelength in cm
     kmax = math.sqrt(kxmax**2+kzmax**2)
-    dk = (kmax - kmin)/numkpts
-    kvals=np.arange(kmin, kmax,dk)
+    #dk = (kmax - kmin)/numkpts
+    #kvals=np.arange(kmin, kmax,dk)
+    kvals = np.linspace(kmin, kmax, numkpts) # dhidas
     #compute Evals
     Evals = KtoE(kvals,E_elec,lam_u,n)
     #compute kxvals and kzvals
     if kxmax > kmin:
-        dkx = (kxmax-kmin)/numkpts
-        kxvals = np.arange(kmin,kxmax,dkx)
+        #dkx = (kxmax-kmin)/numkpts
+        #kxvals = np.arange(kmin,kxmax,dkx)
+        kxvals = np.linspace(kmin, kxmax, numkpts) # dhidas
     else:
         kxvals = np.zeros(numkpts)
 
     if kzmax > kmin:
-        dkz = (kzmax-kmin)/numkpts
-        kzvals = np.arange(kmin,kzmax,dkz)
+        #dkz = (kzmax-kmin)/numkpts
+        #kzvals = np.arange(kmin,kzmax,dkz)
+        kzvals = np.linspace(kmin, kzmax, numkpts) # dhidas
     else:
         kzvals = np.zeros(numkpts)
 
@@ -207,20 +213,23 @@ def srwl_und_div_en(kxmax,kzmax,kmin,numkpts,E_elec,lam_u,phix,phiz,n,nPer,enDet
     #compute kvals and Evals
     #lam_u: undulator wavelength in cm
     kmax = math.sqrt(kxmax**2+kzmax**2)
-    dk = (kmax - kmin)/numkpts
-    kvals=np.arange(kmin, kmax,dk)
+    #dk = (kmax - kmin)/numkpts
+    #kvals=np.arange(kmin, kmax,dk)
+    kvals = np.linspace(kmin, kmax, numkpts) # dhidas
     #compute Evals
     Evals = KtoE(kvals,E_elec,lam_u,n)
     #compute kxvals and kzvals
     if kxmax > kmin:
-        dkx = (kxmax-kmin)/numkpts
-        kxvals = np.arange(kmin,kxmax,dkx)
+        #dkx = (kxmax-kmin)/numkpts
+        #kxvals = np.arange(kmin,kxmax,dkx)
+        kxvals = np.linspace(kmin, kxmax, numkpts) # dhidas
     else:
         kxvals = np.zeros(numkpts)
 
     if kzmax > kmin:
-        dkz = (kzmax-kmin)/numkpts
-        kzvals = np.arange(kmin,kzmax,dkz)
+        #dkz = (kzmax-kmin)/numkpts
+        #kzvals = np.arange(kmin,kzmax,dkz)
+        kzvals = np.linspace(kmin, kzmax, numkpts) # dhidas
     else:
         kzvals = np.zeros(numkpts)
 
@@ -256,20 +265,23 @@ def srwl_und_ang_flux_en(Ib,kxmax,kzmax,kmin,numkpts,E_elec,lam_u,phix,phiz,n,nP
      #compute kvals and Evals
      #lam_u: undulator wavelength in cm
     kmax = math.sqrt(kxmax**2+kzmax**2)
-    dk = (kmax - kmin)/numkpts
-    kvals=np.arange(kmin, kmax,dk)
+    #dk = (kmax - kmin)/numkpts
+    #kvals=np.arange(kmin, kmax,dk)
+    kvals = np.linspace(kmin, kmax, numkpts) # dhidas
     #compute Evals
     Evals = KtoE(kvals,E_elec,lam_u,n)
     #compute kxvals and kzvals
     if kxmax > kmin:
-        dkx = (kxmax-kmin)/numkpts
-        kxvals = np.arange(kmin,kxmax,dkx)
+        #dkx = (kxmax-kmin)/numkpts
+        #kxvals = np.arange(kmin,kxmax,dkx)
+        kxvals = np.linspace(kmin, kxmax, numkpts) # dhidas
     else:
         kxvals = np.zeros(numkpts)
 
     if kzmax > kmin:
-        dkz = (kzmax-kmin)/numkpts
-        kzvals = np.arange(kmin,kzmax,dkz)
+        #dkz = (kzmax-kmin)/numkpts
+        #kzvals = np.arange(kmin,kzmax,dkz)
+        kzvals = np.linspace(kmin, kzmax, numkpts) # dhidas
     else:
         kzvals = np.zeros(numkpts)
 
@@ -308,20 +320,23 @@ def srwl_und_bright_en(Ib,kx,kz,phix,phiz,n,E_elec,lam_u,nPer,epeak,enDetPar,rel
     #compute kvals and Evals
     #lam_u: undulator wavelength in cm
     kmax = math.sqrt(kxmax**2+kzmax**2)
-    dk = (kmax - kmin)/(numkpts-1)
-    kvals=np.arange(kmin, kmax+1e-9,dk)
+    #dk = (kmax - kmin)/(numkpts-1)
+    #kvals=np.arange(kmin, kmax+1e-9,dk)
+    kvals = np.linspace(kmin, kmax, numkpts) # dhidas
     #compute Evals
     Evals = KtoE(kvals,E_elec,lam_u,n)
     #compute kxvals and kzvals
     if kxmax > kmin:
-        dkx = (kxmax-kmin)/(numkpts-1)
-        kxvals = np.arange(kmin,kxmax+1e-9,dkx)
+        #dkx = (kxmax-kmin)/(numkpts-1)
+        #kxvals = np.arange(kmin,kxmax+1e-9,dkx)
+        kxvals = np.linspace(kmin, kxmax, numkpts) # dhidas
     else:
         kxvals = np.zeros(numkpts)
 
     if kzmax > kmin:
-        dkz = (kzmax-kmin)/(numkpts-1)
-        kzvals = np.arange(kmin,kzmax+1e-9,dkz)
+        #dkz = (kzmax-kmin)/(numkpts-1)
+        #kzvals = np.arange(kmin,kzmax+1e-9,dkz)
+        kzvals = np.linspace(kmin, kzmax, numkpts) # dhidas
     else:
         kzvals = np.zeros(numkpts)
 
@@ -337,7 +352,8 @@ def srwl_und_bright_en(Ib,kx,kz,phix,phiz,n,E_elec,lam_u,nPer,epeak,enDetPar,rel
 def srwl_und_size_en_fixedK(sigsq,L,K,E_elec,lam_u,n,nPer,epeak,emin,emax,numepts, relEnSpr):
     #compute evals and detuned size vals
 
-    evals = np.arange(emin,emax,(emax-emin)/numepts)
+    #evals = np.arange(emin,emax,(emax-emin)/numepts)
+    evals = np.linspace(emin, emax, numepts) # dhidas
     enDetPars = (evals-epeak)/epeak
 
     #print(enDetPars)
@@ -353,7 +369,8 @@ def srwl_und_size_en_fixedK(sigsq,L,K,E_elec,lam_u,n,nPer,epeak,emin,emax,numept
 def srwl_und_div_en_fixedK(sigsq,L,K,E_elec,lam_u,n,nPer,epeak,emin,emax,numepts, relEnSpr):
     #compute evals and detuned div vals
 
-    evals = np.arange(emin,emax,(emax-emin)/numepts)
+    #evals = np.arange(emin,emax,(emax-emin)/numepts)
+    evals = np.linspace(emin, emax, numepts) # dhidas
     enDetPars = (evals-epeak)/epeak
 
     #print(enDetPars)
@@ -369,7 +386,8 @@ def srwl_und_div_en_fixedK(sigsq,L,K,E_elec,lam_u,n,nPer,epeak,emin,emax,numepts
 def srwl_und_flux_en_fixedK(Ib,kx,kz,E_elec,lam_u,phix,phiz,n,nPer,epeak,emin,emax,numepts, relEnSpr):
     #compute evals and flux vals
 
-    evals = np.arange(emin,emax,(emax-emin)/numepts)
+    #evals = np.arange(emin,emax,(emax-emin)/numepts)
+    evals = np.linspace(emin, emax, numepts) # dhidas
     enDetPars = (evals-epeak)/epeak
 
      #compute flux for each E value
@@ -383,7 +401,8 @@ def srwl_und_flux_en_fixedK(Ib,kx,kz,E_elec,lam_u,phix,phiz,n,nPer,epeak,emin,em
 def srwl_und_bright_en_fixedK(Ib,kx,kz,phix,phiz,n,E_elec,lam_u,nPer,epeak,emin,emax,numepts,relEnSpr,L,sigxsq,sigysq,sigxpsq,sigypsq):
     #compute evals and bright vals
 
-    brightevals = np.arange(emin,emax,(emax-emin)/numepts)
+    #brightevals = np.arange(emin,emax,(emax-emin)/numepts)
+    brightevals = np.linspace(emin, emax, numepts) # dhidas
     enDetPars = (brightevals-epeak)/epeak
 
     #print(enDetPars)
@@ -609,7 +628,7 @@ def srw_epu_flux(oth, Kx_range, Ky_range, period, length, npoints=1000):
     return flux
 
 
-def srw_und_flux(oth, Kx_range, period, length, harmonic, npoints=1000):
+def srw_und_flux(oth, Kx_range, period, length, harmonic, npoints=1000, detuning=0):
     beam_energy_GeV = oth.get_beam_energy()
     beam_energy_sigma_rel = oth.get_beam_energy_sigma() / beam_energy_GeV
     current = oth.get_beam_current()
@@ -631,7 +650,7 @@ def srw_und_flux(oth, Kx_range, period, length, harmonic, npoints=1000):
                 0.0,                    # phiz
                 harmonic,               # n
                 nPer,                   # nPer
-                0.0,                    # enDetPar
+                detuning,               # enDetPar
                 beam_energy_sigma_rel,  # relEnSpr)
                 )
 

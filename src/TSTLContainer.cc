@@ -1,5 +1,5 @@
 #include "TSTLContainer.h"
-
+#include <cstdint>
 
 TSTLContainer::TSTLContainer ()
 {

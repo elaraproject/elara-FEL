@@ -208,5 +208,5 @@ setup(
   #include_package_data=True,
   package_data = {'oscars' : ['data/srw/brilliance/*txt']  },
   #package_dir = {'': 'oscars'},
-  py_modules = ['oscars.plots_mpl', 'oscars.plots3d_mpl', 'oscars.parametric_surfaces', 'oscars.util', 'oscars.fit', 'oscars.bl', 'oscars.lut', 'oscars.brightness', 'oscars.twiss', 'oscars.me', 'oscars.srwl_uti_brightness']
+  py_modules = ['oscars.plots_mpl', 'oscars.plots3d_mpl', 'oscars.parametric_surfaces', 'oscars.util', 'oscars.fit', 'oscars.bl', 'oscars.lut', 'oscars.brightness', 'oscars.twiss', 'oscars.me', 'oscars.srwl_uti_brightness', 'oscars.henvelope']
 )

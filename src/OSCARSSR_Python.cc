@@ -7354,8 +7354,8 @@ normal_direction : list[3]
     Direction of the normal vector for power density calculation.  Typically this is 
 
 npoints: int
-    number of in each dimension for surface
-
+    number of points
+  
 ofile : str
     Output file name
 
@@ -7383,6 +7383,9 @@ max_level: int
 max_level_extended: int
     Maximum "level" to use for trajectory in the calculation.  If set to higher than max_level the computation will proceed beyond max_level without creating trajectory arrays in memory (but it will be slower)
 
+dim: int
+    number of dimensions (1 or 3).  Default is 3 (3D).  If 1 is chosen the x axis only is used for the return values.
+
 Returns
 -------
 power_density_1d : list
@@ -7405,7 +7408,7 @@ static PyObject* OSCARSSR_CalculatePowerDensityLine (OSCARSSRObject* self, PyObj
   double      Precision = 0.01;
   int         MaxLevel = -2;
   int         MaxLevelExtended = 0;
-  int         Dim = 1;
+  int         Dim = 3;
 
 
   static const char *kwlist[] = {"x1",
@@ -7669,8 +7672,8 @@ quantity: str
 
 Returns
 -------
-power_density : list
-    A list, each element of which is a pair representing the position (2D relative (default) or 3D absolute) and power density [:math:`W / mm^2`] at that position.  eg [[[x1_0, x2_0, x3_0], pd_0], [[x1_1, x2_1, x3_1], pd_1]],  ...].  The position is always given as a list of length 3.  For the default (dim=2) the third element is always zero.
+flux: list
+    A list, each element of which is a pair representing the position (2D relative (default) or 3D absolute) and power density [:math:`ph / mm^2 / s /0.1%bw`] at that position.  eg [[[x1_0, x2_0, x3_0], flux_0], [[x1_1, x2_1, x3_1], flux_1]],  ...].  The position is always given as a list of length 3.  For the default (dim=2) the third element is always zero.
 )docstring";
 static PyObject* OSCARSSR_CalculateFlux (OSCARSSRObject* self, PyObject* args, PyObject *keywds)
 {

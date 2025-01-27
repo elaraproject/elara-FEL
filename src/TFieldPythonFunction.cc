@@ -74,7 +74,11 @@ TVector3D TFieldPythonFunction::GetF (TVector3D const& X, double const T) const
   InputTuple = Py_BuildValue("(dddd)", XNew.GetX(), XNew.GetY(), XNew.GetZ(), T + fTimeOffset);
 
   // Call python function
+#if PY_VERSION_HEX < 0x030A0000
   PyObject* OutputTuple = PyEval_CallObject(fPythonFunction, InputTuple);
+#else
+  PyObject* OutputTuple = PyObject_CallObject(fPythonFunction, InputTuple);
+#endif
 
   // We're done with the input object
   Py_DECREF(InputTuple);
