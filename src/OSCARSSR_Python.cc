@@ -25,6 +25,7 @@
 #include "TField3D_Gaussian.h"
 #include "TField3D_UniformBox.h"
 #include "TField3D_IdealUndulator.h"
+#include "TField3D_IdealChicane.h"
 #include "TField3D_IdealEPU.h"
 #include "TField3D_Halbach.h"
 #include "TField3D_Quadrupole.h"
@@ -1424,6 +1425,155 @@ static PyObject* OSCARSSR_AddMagneticFieldIdealUndulator (OSCARSSRObject* self, 
 
   // Add field
   self->obj->AddMagneticField( (TField*) new TField3D_IdealUndulator(Field, Period, NHalfPeriods, Translation, Phase, Taper, Frequency, FrequencyPhase, TimeOffset, Name));
+
+  // Must return python object None in a special way
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+
+
+
+
+
+
+
+const char* DOC_OSCARSSR_AddMagneticFieldIdealChicane = R"docstring(
+add_bfield_chicane(bfield, width, [rotations, translation, taper, frequency, frequency_phase, time_offset, name])
+
+Adds an ideal chicane field with a given maximum bfield amplitude and width.  This will have 3 sin components, two negative half magnitude outer and one full magnitude inner.  Optionally one can specify rotations and translation.
+
+Parameters
+----------
+bfield : list
+    A list representing the peak field [Bx, By, Bz] in [T]
+
+width : list
+    Width of chicane magnets
+
+rotations : list, optional
+    3-element list representing rotations around x, y, and z axes: [:math:`\theta_x, \theta_y, \theta_z`]
+
+translation : list, optional
+    3-element list representing a translation in space [x, y, z]
+
+frequency : float
+    Frequency in [Hz] where the ampliture is multiplied by cos(2 pi frequency (t + time_offset) + frequency_phase).  Default is 0, for no frequency dependence
+
+frequency_phase: float
+    The phase offset for a time varying field.  Only used if frequency is non-zero.  See frequency input for more.
+
+time_offset: float
+    The time for a time varying field.  Only used if frequency is non-zero.  See frequency input for more.
+
+name : str
+    Name of this field
+
+Returns
+-------
+None
+
+Examples
+--------
+Add an idealized undulator with 41 periods having a period of 0.050 [m] with a maximum field of 1 [T] in the y-direction where the magnetic axis is along the z-axis
+
+    >>> osr.add_bfield_chicane(bfield=[0, 1, 0], width=[0, 0, 0.050])
+)docstring";
+static PyObject* OSCARSSR_AddMagneticFieldIdealChicane (OSCARSSRObject* self, PyObject* args, PyObject* keywds)
+{
+  // Add a magnetic field for undulator
+
+  // Lists and variables
+  PyObject*   List_Field       = PyList_New(0);
+  PyObject*   List_Width       = PyList_New(0);
+  PyObject*   List_Rotations   = PyList_New(0);
+  PyObject*   List_Translation = PyList_New(0);
+  double      Frequency        = 0;
+  double      FrequencyPhase   = 0;
+  double      TimeOffset       = 0;
+  char const* Name             = "";
+
+  TVector3D Field(0, 0, 0);
+  TVector3D Width(0, 0, 0);
+  TVector3D Rotations(0, 0, 0);
+  TVector3D Translation(0, 0, 0);
+
+  // Input variables and parsing
+  static const char *kwlist[] = {"bfield",
+                                 "width",
+                                 "rotations",
+                                 "translation",
+                                 "frequency",
+                                 "frequency_phase",
+                                 "time_offset",
+                                 "name",
+                                 NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywds, "OO|OOddds",
+                                   const_cast<char **>(kwlist),
+                                   &List_Field,
+                                   &List_Width,
+                                   &List_Rotations,
+                                   &List_Translation,
+                                   &Frequency,
+                                   &FrequencyPhase,
+                                   &TimeOffset,
+                                   &Name
+                                   )) {
+    return NULL;
+  }
+
+
+  // Check Field
+  try {
+    Field = OSCARSPY::ListAsTVector3D(List_Field);
+  } catch (std::length_error e) {
+    PyErr_SetString(PyExc_ValueError, "Incorrect format in 'bfield'");
+    return NULL;
+  }
+
+  // Check Width
+  try {
+    Width = OSCARSPY::ListAsTVector3D(List_Width);
+  } catch (std::length_error e) {
+    PyErr_SetString(PyExc_ValueError, "Incorrect format in 'width'");
+    return NULL;
+  }
+
+  // Check for Rotations in the input
+  if (PyList_Size(List_Rotations) != 0) {
+    try {
+      Rotations = OSCARSPY::ListAsTVector3D(List_Rotations);
+    } catch (std::length_error e) {
+      PyErr_SetString(PyExc_ValueError, "Incorrect format in 'rotations'");
+      return NULL;
+    }
+  }
+
+  // Check for Translation in the input
+  if (PyList_Size(List_Translation) != 0) {
+    try {
+      Translation = OSCARSPY::ListAsTVector3D(List_Translation);
+    } catch (std::length_error e) {
+      PyErr_SetString(PyExc_ValueError, "Incorrect format in 'translation'");
+      return NULL;
+    }
+  }
+
+  // Name check
+  if (std::string(Name).size() > 0 && Name[0] == '_') {
+    PyErr_SetString(PyExc_ValueError, "'name' cannot begin with '_'.  This is reserved for internal use.  Please pick a different name");
+    return NULL;
+  }
+
+
+  // Rotate field and sigma
+  // UPDATE: check this
+  Field.RotateSelfXYZ(Rotations);
+  Width.RotateSelfXYZ(Rotations);
+
+
+  // Add field
+  self->obj->AddMagneticField( (TField*) new TField3D_IdealChicane(Field, Width, Translation, Frequency, FrequencyPhase, TimeOffset, Name));
 
   // Must return python object None in a special way
   Py_INCREF(Py_None);
@@ -9617,6 +9767,7 @@ static PyMethodDef OSCARSSR_methods_fake[] = {
   {"add_bfield_gaussian",               (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldGaussian},
   {"add_bfield_uniform",                (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldUniform},
   {"add_bfield_undulator",              (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealUndulator},
+  {"add_bfield_chicane",                (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealChicane},
   {"add_bfield_epu",                    (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealEPU},
   //{"add_bfield_halbach",                (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldHalbach},
   {"add_bfield_quadrupole",             (PyCFunction) OSCARSSR_Fake, METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldQuadrupole},
@@ -9754,6 +9905,7 @@ static PyMethodDef OSCARSSR_methods[] = {
   {"add_bfield_gaussian",               (PyCFunction) OSCARSSR_AddMagneticFieldGaussian,        METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldGaussian},
   {"add_bfield_uniform",                (PyCFunction) OSCARSSR_AddMagneticFieldUniform,         METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldUniform},
   {"add_bfield_undulator",              (PyCFunction) OSCARSSR_AddMagneticFieldIdealUndulator,  METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealUndulator},
+  {"add_bfield_chicane",                (PyCFunction) OSCARSSR_AddMagneticFieldIdealChicane,    METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealChicane},
   {"add_bfield_epu",                    (PyCFunction) OSCARSSR_AddMagneticFieldIdealEPU,        METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldIdealEPU},
   //{"add_bfield_halbach",                (PyCFunction) OSCARSSR_AddMagneticFieldHalbach,         METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldHalbach},
   {"add_bfield_quadrupole",             (PyCFunction) OSCARSSR_AddMagneticFieldQuadrupole,      METH_VARARGS | METH_KEYWORDS, DOC_OSCARSSR_AddMagneticFieldQuadrupole},

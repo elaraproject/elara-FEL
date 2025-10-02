@@ -643,7 +643,7 @@ def srw_und_flux(oth, Kx_range, period, length, harmonic, npoints=1000, detuning
                 0.0,                    # kxmax
                 Kx_range[0],            # kzmax
                 0.1,                    # kmin
-                2500,                   # numkpts
+                npoints,                   # numkpts
                 beam_energy_GeV,        # E_elec
                 lam_u,                  # lam_u
                 0.0,                    # phix
@@ -677,7 +677,7 @@ def srw_epu_flux_onaxis(oth, Kx_range, Ky_range, period, length, npoints=1000):
             Ky_range[0],            # kxmax
             Kx_range[0],            # kzmax
             0.1,                    # kmin
-            2500,                   # numkpts
+            npoints,                   # numkpts
             beam_energy_GeV,        # E_elec
             lam_u,                  # lam_u
             -0.7853981633974483,    # phix
@@ -717,7 +717,7 @@ def srw_und_flux_onaxis(oth, Kx_range, period, length, harmonic, npoints=1000):
                 0.0,                    # kxmax
                 Kx_range[0],            # kzmax
                 0.1,                    # kmin
-                2500,                   # numkpts
+                npoints,                   # numkpts
                 beam_energy_GeV,        # E_elec
                 lam_u,                  # lam_u
                 0.0,                    # phix

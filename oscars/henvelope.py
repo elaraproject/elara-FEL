@@ -144,8 +144,17 @@ class henvelope:
                 if i == 0:
                     ret = hg.plot(**kwargs)
                 else:
-                    filtered_kwargs = {k: v for k, v in kwargs.items() if k != "label"}
-                    ret = hg.plot(**filtered_kwargs)
+                    # Extract properties and use those
+                    line_props = {
+                        'color': ret[0].get_color(),
+                        'linestyle': ret[0].get_linestyle(),
+                        'marker': ret[0].get_marker(),
+                        'linewidth': ret[0].get_linewidth(),
+                        'markersize': ret[0].get_markersize(),
+                        'alpha': ret[0].get_alpha(),  # Transparency
+                    }
+
+                    ret = hg.plot(**line_props)
             return ret
         return
 
