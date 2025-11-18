@@ -60,7 +60,8 @@ def power_density_3d(srs, surface,
 
 
     fig = plt.figure(1, figsize=figsize)
-    ax = fig.gca(projection = '3d')
+    ax = fig.add_subplot(projection="3d")
+    
     if view_init is not None:
         ax.view_init(view_init[0], view_init[1])
 
@@ -251,7 +252,7 @@ def plot_bfield3D (srs, xlim=[-0.02, 0.02], ylim=[-0.02, 0.02], zlim=[-0.2, 0.02
     BMax = 0.
 
     fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    ax = fig.add_subplot(projection="3d")
 
 
     dx = (xlim[1] - xlim[0]) / (nx - 1)
@@ -316,7 +317,7 @@ def plot_surface(surface, xlim=None, ylim=None, zlim=None, alpha=0.5, **kwargs):
 
 
     fig = plt.figure(1)
-    ax = fig.gca(projection = '3d')
+    ax = fig.add_subplot(projection="3d")
     ax.set_xlabel('X [m]')
     ax.set_ylabel('Z [m]')
     ax.set_zlabel('Y [m]')
@@ -345,7 +346,7 @@ def plot_trajectory3d(trajectory, figsize=None):
     #mpl.rcParams['legend.fontsize'] = 10
 
     fig = plt.figure(1, figsize=figsize)
-    ax = fig.gca(projection='3d')
+    ax = fig.add_subplot(projection="3d")
 
     # Get coordinate lists
     X  = [item[0][0] for item in trajectory]
