@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import oscars.sr
 import oscars.th
 import oscars.lut

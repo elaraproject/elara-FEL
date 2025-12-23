@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import numpy as np
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt

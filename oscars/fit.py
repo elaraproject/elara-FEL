@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import oscars.plots_mpl
 
 from scipy.optimize import curve_fit, minimize

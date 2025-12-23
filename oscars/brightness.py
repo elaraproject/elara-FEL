@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import oscars.th
 import numpy as np
 from scipy.interpolate import interp1d
